@@ -11,14 +11,14 @@ object Repository {
     fun searchPlaces(place: String) = liveData(Dispatchers.IO) {
         val result = try {
             val placeResponse = SunnyWeatherNetwork.searchPlace(place)
-            if (placeResponse.status == "OK") {
+            if (placeResponse.status == "ok") {
                 val places = placeResponse.places
-                Result.success(place)
+                Result.success(places)
             } else {
                 Result.failure(RuntimeException("Response status is ${placeResponse.status}"))
             }
         } catch (e: Exception) {
-            Result.failure<List<Place>>(e)
+            Result.failure(e)
         }
         emit(result)
     }
