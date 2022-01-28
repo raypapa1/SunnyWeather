@@ -13,13 +13,30 @@ import kotlin.coroutines.suspendCoroutine
 
 object SunnyWeatherNetwork {
     const val SP_TAG = "NET_WORK_REQUEST_SEARCH_PLACE"
+    const val RR_TAG = "NET_WORK_REQUEST_REALTIME_REQUEST"
+    const val DR_TAG = "NET_WORK_REQUEST_DAILY_REQUEST"
+    //获取位置信息
     private val placeService = ServiceCreator.create(PlaceService::class.java)
 
-    //开始请求方位
+    //获取实时天气预报
+    private val weatherService = ServiceCreator.create<WeatherService>()
+
+    /*
+    请求不同城市的位置
+     */
     suspend fun searchPlace(query: String) = placeService.searchPlaces(query).await()
 
+    /*
+    请求精确地点的实时天气以
+     */
+    suspend fun getRealTimeWeather(lng: String, lat: String) = weatherService.getRealTimeWeather(lng, lat).await()
 
-    //调用searchPlace后会执行await()函数，如果返回的数据是正确的就执行。不正确就抛出异常
+    /*
+    请求未来几天的天气
+     */
+    suspend fun getDailyWeather(lng: String, lat: String) = weatherService.getDailyWeather(lng, lat).await()
+
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
