@@ -6,15 +6,14 @@ data class RealTimeResponse(
     @SerializedName("status")
     val status: String,
     @SerializedName("result")
-    val result:Result
+    val result: Result
 )
 
 data class Result(
     @SerializedName("realtime")
     val realTime: RealTime,
-    @SerializedName("air_quality")
-    val airQuality: AirQuality
-)
+    )
+
 data class RealTime(
     @SerializedName("temperature")
     val temperature: Float,
@@ -23,9 +22,10 @@ data class RealTime(
     @SerializedName("skycon")
     val skycon: String,
     @SerializedName("visibility")
-    val visibility: Float
+    val visibility: Float,
+    @SerializedName("air_quality")
+    val airQuality: AirQuality
 )
-
 data class AirQuality(
     @SerializedName("aqi")
     val aqi: Aqi
